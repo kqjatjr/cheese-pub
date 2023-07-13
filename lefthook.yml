@@ -3,7 +3,7 @@ pre-commit:
   commands:
     eslint:
       glob: '*.{js,ts,jsx,tsx}'
-      run: npx eslint {staged_files} --fix
+      run: npx prettier --ignore-unknown --write {staged_files} && npx eslint --fix {staged_files} && git add {staged_files}
     tsc:
       glob: '*.{ts,tsx}'
       run: npx tsc --noEmit
