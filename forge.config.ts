@@ -24,12 +24,17 @@ const config: ForgeConfig = {
         config: rendererConfig,
         entryPoints: [
           {
-            html: './electron/index.html',
+            html: './electron/renderer/main_window/index.html',
             js: './src/index.tsx',
             name: 'main_window',
             preload: {
-              js: './electron/preload.ts',
+              js: './electron/renderer/main_window/preload.ts',
             },
+          },
+          {
+            html: './electron/renderer/oauth/index.html',
+            js: '/electron/renderer/oauth/script.ts',
+            name: 'oauth',
           },
         ],
       },

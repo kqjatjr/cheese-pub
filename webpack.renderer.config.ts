@@ -18,6 +18,7 @@ export const rendererConfig: Configuration = {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css'],
     alias: {
       src: path.resolve(__dirname, 'src'),
+      $electron: path.resolve(__dirname, 'electron'),
     },
   },
 };
