@@ -36,6 +36,8 @@ const root = createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
   <NextUIProvider>
-    <App />
+    <main className="dark text-foreground bg-background">
+      <App />
+    </main>
   </NextUIProvider>,
 );
