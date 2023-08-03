@@ -1,5 +1,6 @@
-import { RoutePaths } from 'src/routes/paths';
-
-window.location.href = `${window.electron.getEntry().main_window}#${RoutePaths.SIGN_IN.CALLBACK}${
-  window.location.search
-}`;
+if (window.opener) {
+  const searchParams = new URLSearchParams(window.location.search);
+  window.opener.postMessage({
+    code: searchParams.get('code'),
+  });
+}
