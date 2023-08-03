@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { Button, Input } from '@nextui-org/react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import MastodonService from 'src/activityPub/MastodonService';
 import { Application } from 'src/activityPub/MastodonService.types';
 
@@ -30,7 +31,9 @@ function App() {
     }
   }, [result]);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     const token = service.postToken({
       grantType: 'authorization_code',
       clientId: result.client_id,
@@ -42,9 +45,17 @@ function App() {
   };
 
   return (
-    <div>
-      <input value={code} onChange={(e) => setCode(e.target.value)}></input>
-      <button onClick={handleSubmit}> submit</button>
+    <div className="h-screen flex justify-center items-center">
+      <form className="w-60 flex flex-col gap-4" onSubmit={handleSubmit}>
+        <Input
+          className="w-full"
+          variant="bordered"
+          label="code"
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+        />
+        <Button color="primary">SUBMIT</Button>
+      </form>
     </div>
   );
 }

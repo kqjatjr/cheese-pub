@@ -29,7 +29,15 @@
 import { createRoot } from 'react-dom/client';
 import React from 'react';
 import App from 'src/app';
+import { NextUIProvider } from '@nextui-org/react';
+import './styles/global.css';
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
 
-root.render(<App />);
+root.render(
+  <NextUIProvider>
+    <main className="dark text-foreground bg-background">
+      <App />
+    </main>
+  </NextUIProvider>,
+);
