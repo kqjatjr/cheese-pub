@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { RoutePaths } from 'src/routes/paths';
+import { RoutePaths } from '$routes/paths';
 
 const Home = () => {
   const isUserLoggedIn = false;

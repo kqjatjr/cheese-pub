@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, createHashRouter, createRoutesFromElements } from 'react-router-dom';
-import Home from 'src/routes/home';
-import { RoutePaths } from 'src/routes/paths';
-import SignIn from 'src/routes/signin';
+import Home from './routes/home';
+import { RoutePaths } from './routes/paths';
+import SignIn from './routes/signin';
 
 const router = createHashRouter(
   createRoutesFromElements(

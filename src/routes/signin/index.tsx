@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import MastodonService from 'src/activityPub/MastodonService';
-import { Application } from 'src/activityPub/MastodonService.types';
+import MastodonService from '$activityPub/MastodonService';
+import { Application } from '$activityPub/MastodonService.types';
 
 const SignIn = () => {
   const [service] = useState(() => new MastodonService({ baseUrl: 'https://mastodon.social' }));
