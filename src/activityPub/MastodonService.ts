@@ -1,5 +1,5 @@
-import ActivityPubService, { ActivityPubServiceOptions } from 'src/activityPub/ActivityPubService';
-import { Application, Token } from 'src/activityPub/MastodonService.types';
+import ActivityPubService, { ActivityPubServiceOptions } from '$activityPub/ActivityPubService';
+import { Application, Token } from '$activityPub/MastodonService.types';
 
 type MastodonServiceOptions = ActivityPubServiceOptions;
 

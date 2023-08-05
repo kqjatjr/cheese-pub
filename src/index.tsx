@@ -28,7 +28,7 @@
 
 import { createRoot } from 'react-dom/client';
 import React from 'react';
-import App from 'src/app';
+import App from './app';
 import { NextUIProvider } from '@nextui-org/react';
 import './styles/global.css';
 

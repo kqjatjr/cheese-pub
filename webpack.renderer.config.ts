@@ -2,7 +2,7 @@ import type { Configuration } from 'webpack';
 
 import { rules } from './webpack.rules';
 import { plugins } from './webpack.plugins';
-import path from 'path';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
 rules.push({
   test: /\.css$/,
@@ -16,8 +16,6 @@ export const rendererConfig: Configuration = {
   plugins,
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css'],
-    alias: {
-      src: path.resolve(__dirname, 'src'),
-    },
+    plugins: [new TsconfigPathsPlugin({})],
   },
 };

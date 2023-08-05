@@ -14,7 +14,8 @@
     "resolveJsonModule": true,
     "paths": {
       "*": ["node_modules/*"],
-      "src/*": ["src/*"]
+      "$*": ["src/*"],
+      "$electron/*": ["electron/*"]
     }
   },
   "include": ["src/**/*", "electron/**/*"]
