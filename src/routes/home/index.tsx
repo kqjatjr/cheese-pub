@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { RoutePaths } from '$routes/paths';
 
 const Home = () => {
-  const isUserLoggedIn = false;
+  const isUserLoggedIn = sessionStorage.getItem('ACCESS_TOKEN');
   const navigate = useNavigate();
 
   useEffect(() => {
