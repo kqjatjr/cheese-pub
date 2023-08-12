@@ -1,5 +1,5 @@
 import { atomWithStorage, selectAtom } from 'jotai/utils';
-import { atom, useAtom, useAtomValue } from 'jotai';
+import { atom, useAtomValue } from 'jotai';
 import { ServiceType } from '$constants/activityPub';
 import { LocalStorageKey } from '$constants/localStorage';
 import { useCallback } from 'react';

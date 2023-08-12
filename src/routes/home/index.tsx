@@ -1,29 +1,33 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { RoutePaths } from '$routes/paths';
-import { useAccountAtom } from '$atoms/accounts';
-import { globalUiAtom } from '$atoms/ui';
-import { useAtom } from 'jotai';
+import { accountsAtom } from '$atoms/accounts';
+import { useAtomValue } from 'jotai';
+import Feed from '$routes/home/components/Feed';
 
 const Home = () => {
-  const [globalUiState] = useAtom(globalUiAtom);
-  const account = useAccountAtom(globalUiState.defaultAccountId);
-  const isUserLoggedIn = !!account;
   const navigate = useNavigate();
+  const instances = useAtomValue(accountsAtom);
+  const isUserLoggedIn = instances.length > 0;
 
   useEffect(() => {
-    if (!isUserLoggedIn) {
+    if (!isUserLoggedIn && instances.length === 0) {
       navigate(RoutePaths.SIGN_IN.HOME);
     }
-  }, []);
+  }, [isUserLoggedIn]);
+
+  if (!isUserLoggedIn) return null;
 
   return (
-    <div>
-      <h1>Home</h1>
-      <div>
-        {account?.id} {account?.accessToken}
+    <>
+      <div className="flex gap-2 justify-items-start">
+        {instances.map((instance) => (
+          <div className="w-2/6" key={instance.id}>
+            <Feed instance={instance} />
+          </div>
+        ))}
       </div>
-    </div>
+    </>
   );
 };
 
