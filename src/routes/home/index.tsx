@@ -21,9 +21,9 @@ const Home = () => {
 
   return (
     <>
-      <div className="flex gap-2 justify-items-start">
+      <div className="flex gap-2 justify-items-start overflow-hidden h-screen">
         {instances.map((instance) => (
-          <div className="w-2/6" key={instance.id}>
+          <div className="w-2/6  h-ful" key={instance.id}>
             <Feed instance={instance} />
           </div>
         ))}
