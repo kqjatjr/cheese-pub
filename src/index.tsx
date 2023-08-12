@@ -30,14 +30,18 @@ import { createRoot } from 'react-dom/client';
 import React from 'react';
 import App from './app';
 import { NextUIProvider } from '@nextui-org/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import './styles/global.css';
 
+const queryClient = new QueryClient();
 const root = createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
-  <NextUIProvider>
-    <main className="dark text-foreground bg-background">
-      <App />
-    </main>
-  </NextUIProvider>,
+  <QueryClientProvider client={queryClient}>
+    <NextUIProvider>
+      <main className="dark text-foreground bg-background">
+        <App />
+      </main>
+    </NextUIProvider>
+  </QueryClientProvider>,
 );
