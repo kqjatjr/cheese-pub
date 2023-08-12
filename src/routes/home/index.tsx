@@ -4,6 +4,7 @@ import { RoutePaths } from '$routes/paths';
 import { accountsAtom } from '$atoms/accounts';
 import { useAtomValue } from 'jotai';
 import Feed from '$routes/home/components/Feed';
+import AddServerFab from '$routes/home/components/AddServerFab';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ const Home = () => {
           </div>
         ))}
       </div>
+      <AddServerFab />
     </>
   );
 };
