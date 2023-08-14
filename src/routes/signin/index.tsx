@@ -3,6 +3,7 @@ import MastodonService from '$activityPub/MastodonService';
 import { Application } from '$activityPub/MastodonService.types';
 import { useNavigate } from 'react-router';
 import { RoutePaths } from '$routes/paths';
+import { Input } from '@nextui-org/react';
 
 const createApp = async (service: MastodonService) => {
   const app = await service.postApps({
@@ -54,7 +55,7 @@ const SignIn = () => {
     });
   };
 
-  const handleClickSingInBtn = async () => {
+  const singInServer = async () => {
     if (!serverName) {
       alert('Please enter the server name');
       return;
@@ -66,6 +67,13 @@ const SignIn = () => {
 
     setService(service);
     setApp(app);
+  };
+
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      console.log('????');
+      singInServer();
+    }
   };
 
   useEffect(() => {
@@ -80,11 +88,16 @@ const SignIn = () => {
   }, [token]);
 
   return (
-    <div>
-      <h1>SignIn</h1>
-      <input placeholder="enter server name" value={serverName} onChange={(e) => setServerName(e.target.value)} />
-      <button onClick={handleClickSingInBtn}>Sign in</button>
-      <div>code: {authorizationCode}</div>
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <span className="text-4xl md:text-4xl lg:text-6xl xl:text-8xl mb-4 md:mb-8">CHEESE PUB</span>
+      <Input
+        className="w-full md:w-2/3 lg:w-1/2 xl:w-1/3 mb-2 md:mb-0 px-4 py-3"
+        label="server name"
+        placeholder="Please enter the server name and press enter"
+        value={serverName}
+        onChange={(e) => setServerName(e.target.value)}
+        onKeyUp={handleKeyUp}
+      />
     </div>
   );
 };
