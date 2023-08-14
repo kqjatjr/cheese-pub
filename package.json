@@ -53,6 +53,8 @@
     "@nextui-org/react": "^2.0.1",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.7",
+    "dexie": "^3.2.4",
+    "dexie-react-hooks": "^1.1.6",
     "electron-squirrel-startup": "^1.0.0",
     "framer-motion": "^10.15.0",
     "react": "^18.2.0",
