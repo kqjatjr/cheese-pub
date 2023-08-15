@@ -4,6 +4,7 @@ import { Application } from '$activityPub/MastodonService.types';
 import { useNavigate } from 'react-router';
 import { RoutePaths } from '$routes/paths';
 import { Input } from '@nextui-org/react';
+import { addData } from '$store/indexedDB/db';
 
 const createApp = async (service: MastodonService) => {
   const app = await service.postApps({
@@ -30,8 +31,20 @@ const SignIn = () => {
       scopes: ['read', 'write'],
       clientSecret: app.client_secret,
     });
+
     if (token.access_token) {
+      const newAccount = {
+        id: '2',
+        instance: serverName,
+        token: token,
+        isSelected: true,
+        username: 'new_user',
+      };
+
       setToken(token.access_token);
+      await addData({ registeredaccounts: { accounts: [newAccount] } }).then((res) => {
+        navigate(RoutePaths.HOME);
+      });
       sessionStorage.setItem('ACCESS_TOKEN', token.access_token);
     } else {
       alert('Error');
@@ -80,12 +93,6 @@ const SignIn = () => {
     if (!authorizationCode) return;
     getToken();
   }, [authorizationCode]);
-
-  useEffect(() => {
-    if (token) {
-      navigate(RoutePaths.HOME);
-    }
-  }, [token]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
