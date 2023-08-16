@@ -4,7 +4,11 @@ import { Application } from '$activityPub/MastodonService.types';
 import { useNavigate } from 'react-router';
 import { RoutePaths } from '$routes/paths';
 import { Input } from '@nextui-org/react';
-import { addData } from '$store/indexedDB/db';
+import { useAtom, useSetAtom } from 'jotai';
+import { addAccountAtom } from '$atoms/accounts';
+import { ServiceType } from '$constants/activityPub';
+import { globalUiAtom } from '$atoms/ui';
+import { nanoid } from 'nanoid';
 
 const createApp = async (service: MastodonService) => {
   const app = await service.postApps({
@@ -16,14 +20,17 @@ const createApp = async (service: MastodonService) => {
 
 const SignIn = () => {
   const [serverName, setServerName] = useState('https://mastodon.social');
-  const [authorizationCode, setAuthorizationCode] = useState<string>(null);
+  const [authorizationCode, setAuthorizationCode] = useState<string | null>(null);
   const [service, setService] = useState<MastodonService>();
+  const [globalUiState, setGlobalUiState] = useAtom(globalUiAtom);
+  const addAccount = useSetAtom(addAccountAtom);
   const [app, setApp] = useState<Application>();
-  const [token, setToken] = useState<string>();
   const navigate = useNavigate();
 
   const getToken = async () => {
-    const token = await service.postToken({
+    if (!app || !app.client_id || !app.client_secret || !authorizationCode) return;
+
+    const token = await service?.postToken({
       grantType: 'authorization_code',
       clientId: app.client_id,
       code: authorizationCode,
@@ -32,19 +39,23 @@ const SignIn = () => {
       clientSecret: app.client_secret,
     });
 
-    if (token.access_token) {
-      const newAccount = {
-        id: '2',
-        instance: serverName,
-        token: token,
-        isSelected: true,
-        username: 'new_user',
-      };
+    if (!token) return;
 
-      setToken(token.access_token);
-      await addData({ registeredaccounts: { accounts: [newAccount] } }).then((res) => {
-        navigate(RoutePaths.HOME);
+    if (token.access_token) {
+      const id = nanoid();
+      addAccount({
+        id,
+        url: serverName,
+        accessToken: token.access_token,
+        type: ServiceType.Mastodon,
       });
+
+      if (!globalUiState.defaultAccountId) {
+        setGlobalUiState({ defaultAccountId: id, selectedAccountId: id });
+      }
+
+      navigate(RoutePaths.HOME);
+
       sessionStorage.setItem('ACCESS_TOKEN', token.access_token);
     } else {
       alert('Error');
@@ -52,6 +63,8 @@ const SignIn = () => {
   };
 
   const getAuthCode = (service: MastodonService, app: Application) => {
+    if (!app.client_id) return;
+
     const authWindow = window.open(
       service.getAuthorizeUrl({
         clientId: app.client_id,
@@ -64,7 +77,7 @@ const SignIn = () => {
         return;
       }
       setAuthorizationCode(event.data.code);
-      authWindow.close();
+      authWindow?.close();
     });
   };
 
@@ -103,7 +116,7 @@ const SignIn = () => {
         placeholder="Please enter the server name and press enter"
         value={serverName}
         onChange={(e) => setServerName(e.target.value)}
-        onKeyUp={handleKeyUp}
+        onKeyDown={handleKeyUp}
       />
     </div>
   );
