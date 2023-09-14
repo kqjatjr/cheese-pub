@@ -1,8 +1,9 @@
-import type { Configuration } from 'webpack';
+import { type Configuration } from 'webpack';
 
 import { rules } from './webpack.rules';
 import { plugins } from './webpack.plugins';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
+import NodePolyfillPlugin from 'node-polyfill-webpack-plugin';
 
 rules.push({
   test: /\.css$/,
@@ -13,9 +14,15 @@ export const rendererConfig: Configuration = {
   module: {
     rules,
   },
-  plugins,
+  plugins: [new NodePolyfillPlugin(), ...plugins],
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css'],
     plugins: [new TsconfigPathsPlugin({})],
+    fallback: {
+      net: false,
+      tls: false,
+      fs: false,
+      dns: false,
+    },
   },
 };
