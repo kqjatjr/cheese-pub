@@ -12,7 +12,7 @@ type Props = {
 };
 
 const AddServerForm = ({ onAdded }: Props) => {
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState('mastodon.social');
   const [globalUiState, setGlobalUiState] = useAtom(globalUiAtom);
   const addAccount = useSetAtom(addAccountAtom);
 
@@ -67,7 +67,7 @@ const AddServerForm = ({ onAdded }: Props) => {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-      <RadioGroup label="Service" name="service">
+      <RadioGroup label="Service" name="service" defaultValue={ServiceType.Mastodon}>
         <Radio value={ServiceType.Mastodon} defaultChecked>
           Mastodon
         </Radio>
