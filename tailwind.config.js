@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       colors: {
         cheese: '#F5A524',
+        bgColor: '#3A3535',
       },
       fontFamily: {
         title: ['Lemonada', 'Fantasy'],
