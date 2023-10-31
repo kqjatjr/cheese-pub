@@ -39,7 +39,7 @@ const root = createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <QueryClientProvider client={queryClient}>
     <NextUIProvider>
-      <main className="dark text-foreground bg-background">
+      <main className="dark text-foreground bg-bgColor h-screen w-screen">
         <App />
       </main>
     </NextUIProvider>
