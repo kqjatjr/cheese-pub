@@ -66,28 +66,32 @@ const AddServerForm = ({ onAdded }: Props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-      <RadioGroup label="Service" name="service">
-        <Radio value={ServiceType.Mastodon} defaultChecked>
-          Mastodon
-        </Radio>
-        <Radio value={ServiceType.Misskey}>Misskey</Radio>
-      </RadioGroup>
-      <Input
-        label="Server"
-        name="url"
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-        startContent={
-          <div className="pointer-events-none flex items-center">
-            <span className="text-default-400 text-small">https://</span>
-          </div>
-        }
-      />
-      <Button type="submit" color="primary">
-        완료
-      </Button>
-    </form>
+    <div className="flex p-5 justify-center items-center w-full">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2 w-full">
+        {/* <RadioGroup label="Service" name="service"> */}
+        {/* <Radio value={ServiceType.Mastodon} defaultChecked>
+            Mastodon
+          </Radio> */}
+        {/* Miskey 는 mastodon개발 후 추후 지원 */}
+        {/* <Radio value={ServiceType.Misskey}>Misskey</Radio> */}
+        {/* </RadioGroup> */}
+        <Input
+          label=""
+          name="url"
+          className=""
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+          startContent={
+            <div className="pointer-events-none flex items-center">
+              <span className="text-default-400 text-small">https://</span>
+            </div>
+          }
+        />
+        <Button type="submit" color="primary" className="bg-cheese mt-2">
+          완료
+        </Button>
+      </form>
+    </div>
   );
 };
 
