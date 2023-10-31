@@ -46,6 +46,10 @@ const AddServerForm = ({ onAdded }: Props) => {
       }
       authWindow?.close();
 
+      if (!event.data.code) {
+        return;
+      }
+
       const token = await service.fetchAccessToken(
         appData.client_id,
         appData.client_secret,
