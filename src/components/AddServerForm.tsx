@@ -88,7 +88,7 @@ const AddServerForm = ({ onAdded }: Props) => {
           }
         />
         <Button type="submit" color="primary" className="bg-cheese mt-2">
-          완료
+          Login
         </Button>
       </form>
     </div>
