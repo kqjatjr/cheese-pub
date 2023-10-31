@@ -19,8 +19,14 @@ const AddServerForm = ({ onAdded }: Props) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!url) {
+      alert('insert url');
+      return;
+    }
+
     const formData = new FormData(e.currentTarget);
-    const serviceType = formData.get('service') as ServiceType;
+    // const serviceType = formData.get('service') as ServiceType;
+    const serviceType = 'mastodon' as ServiceType;
     const serverUrl = `https://${formData.get('url')}`;
 
     const service = generator(serviceType, serverUrl);
