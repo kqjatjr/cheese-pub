@@ -8,6 +8,9 @@ module.exports = {
       colors: {
         cheese: '#F5A524',
       },
+      fontFamily: {
+        title: ['Lemonada', 'Fantasy'],
+      },
     },
     screens: {
       sm: '640px',
