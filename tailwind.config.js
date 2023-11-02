@@ -9,6 +9,7 @@ module.exports = {
         cheese: '#F5A524',
         bgColor: '#3A3535',
         mainColor: '#1F1F1F',
+        darkColor: '#292929',
       },
       fontFamily: {
         title: ['Lemonada', 'Fantasy'],
