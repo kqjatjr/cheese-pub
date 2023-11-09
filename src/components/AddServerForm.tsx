@@ -58,17 +58,20 @@ const AddServerForm = ({ onAdded }: Props) => {
       );
 
       const id = nanoid();
-
-      addAccount({
+      const account = {
         id,
         url: serverUrl,
         accessToken: token.accessToken,
         type: serviceType,
-      });
+      };
+
+      addAccount(account);
 
       if (!globalUiState.defaultAccountId) {
         setGlobalUiState({ defaultAccountId: id, selectedAccountId: id });
       }
+
+      sessionStorage.setItem('ACCOUNT_INFO', JSON.stringify(account));
       sessionStorage.setItem('ACCESS_TOKEN', token.access_token);
 
       onAdded?.();
