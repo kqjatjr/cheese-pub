@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AddServerForm from '$components/AddServerForm';
 import { useNavigate } from 'react-router';
 import { RoutePaths } from '$routes/paths';
+import { useAtomValue } from 'jotai';
+import { accountsAtom } from '$atoms/accounts';
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const instances = useAtomValue(accountsAtom);
+  const isUserLoggedIn = instances.length > 0;
+
+  useEffect(() => {
+    if (isUserLoggedIn) {
+      navigate(RoutePaths.HOME);
+    }
+  }, [instances]);
 
   return (
     <div className="flex items-center h-screen w-screen flex-col gap-y-[20px] pt-[20%]">
