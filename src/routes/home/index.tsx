@@ -6,6 +6,7 @@ import AddServerFab from '$routes/home/components/AddServerFab';
 import { useAtomValue } from 'jotai';
 import { accountsAtom } from '$atoms/accounts';
 import Header from './components/Header';
+import Sidebar from '$components/Sidebar';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const Home = () => {
     <div className="flex flex-col ">
       <Header title="CHEESE-PUB" />
       <div className="flex gap-2 justify-items-start overflow-hidden h-screen">
-        <div className="bg-darkColor">asdf</div>
+        <Sidebar instances={instances} />
         <div className='flex gap-2 w-full h-full justify-items-start overflow-hidden h-screen" p-[15px]'>
           {instances.map((instance) => (
             <div className="w-2/6  h-ful" key={instance.id}>
