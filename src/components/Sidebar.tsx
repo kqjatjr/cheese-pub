@@ -22,16 +22,6 @@ const Sidebar: FC<ISidebarProps> = ({ instances }) => {
     });
   }, [instances]);
 
-  if (accountList.length <= 0) {
-    return (
-      <div className="bg-darkColor w-[58px] flex items-center flex-col gap-[15px] p-[15px]">
-        {instances.map((instance) => {
-          return <Avatar isBordered radius="md" key={instance.id} />;
-        })}
-      </div>
-    );
-  }
-
   return (
     <div className="bg-darkColor w-[58px] flex items-center flex-col gap-[15px] p-[15px]">
       {accountList.length
