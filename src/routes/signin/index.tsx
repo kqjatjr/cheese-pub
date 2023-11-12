@@ -16,8 +16,6 @@ const SignIn = () => {
     }
   }, [instances]);
 
-  if (!isUserLoggedIn) return null;
-
   return (
     <div className="flex items-center h-screen w-screen flex-col gap-y-[20px] pt-[20%]">
       <div className="flex flex-col items-end">
