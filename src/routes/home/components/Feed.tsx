@@ -13,12 +13,14 @@ const Feed = ({ instance }: Props) => {
   const [client] = useState(() => generator(instance.type, instance.url, instance.accessToken));
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
     ['feed', instance.id],
-    ({ pageParam }) => {
+    async ({ pageParam }) => {
+      const a = await client.getHomeTimeline({ limit: 40, ...pageParam });
+      console.log(a, '##');
       return client.getHomeTimeline({ limit: 40, ...pageParam });
     },
     {
-      getPreviousPageParam: (firstPage) => firstPage.data[0].id,
-      getNextPageParam: (lastPage) => lastPage.data[lastPage.data.length - 1].id,
+      // getPreviousPageParam: (firstPage) => firstPage.data[0].id,
+      // getNextPageParam: (lastPage) => lastPage.data[lastPage.data.length - 1].id,
       suspense: true,
     },
   );
@@ -38,6 +40,7 @@ const Feed = ({ instance }: Props) => {
 
   return (
     <div className="h-full overflow-auto">
+      <div>{instance.id}</div>
       {timeline.map((feed, i) => (
         <Fragment key={i}>
           <Card>
