@@ -8,9 +8,10 @@ import { accountsAtom } from '$atoms/accounts';
 const SignIn = () => {
   const navigate = useNavigate();
   const instances = useAtomValue(accountsAtom);
-  const isUserLoggedIn = instances.length > 0;
 
   useEffect(() => {
+    const isUserLoggedIn = instances.length > 0;
+
     if (isUserLoggedIn) {
       navigate(RoutePaths.HOME);
     }
