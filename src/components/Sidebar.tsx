@@ -1,7 +1,5 @@
-import { Instance } from '$atoms/accounts';
 import { Avatar } from '@nextui-org/react';
-import generator from 'megalodon';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 
 interface ISidebarProps {
   accountList: Entity.Account[];
