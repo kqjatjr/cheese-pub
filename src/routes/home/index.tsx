@@ -48,7 +48,6 @@ const Home = () => {
           ))}
         </div>
       </div>
-      <AddServerFab />
     </div>
   );
 };

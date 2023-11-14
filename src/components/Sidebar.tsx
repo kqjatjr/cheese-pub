@@ -1,3 +1,4 @@
+import AddServerFab from '$routes/home/components/AddServerFab';
 import { Avatar } from '@nextui-org/react';
 import React, { FC } from 'react';
 
@@ -11,6 +12,7 @@ const Sidebar: FC<ISidebarProps> = ({ accountList }) => {
       {accountList.map((account) => {
         return <Avatar isBordered radius="md" key={account.id} color="success" src={account.avatar} />;
       })}
+      <AddServerFab />
     </div>
   );
 };
