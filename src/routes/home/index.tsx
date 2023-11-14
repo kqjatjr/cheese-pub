@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { RoutePaths } from '$routes/paths';
 import Feed from '$routes/home/components/Feed';
@@ -7,6 +7,7 @@ import { Instance, accountsAtom } from '$atoms/accounts';
 import Header from './components/Header';
 import Sidebar from '$components/Sidebar';
 import generator, { Entity } from 'megalodon';
+import { Spinner } from '@nextui-org/react';
 
 interface IAccountList extends Entity.Account {
   instanceId: string;
@@ -41,20 +42,29 @@ const Home = () => {
   return (
     <div className="flex flex-col ">
       <Header title="CHEESE-PUB" />
+
       <div className="flex gap-2 justify-items-start overflow-hidden h-screen">
-        <Sidebar accountList={accountList} />
-        <div className='flex gap-2 w-full h-full justify-items-start overflow-hidden h-screen" p-[15px]'>
-          {instances.map((instance) => (
-            <div className="w-2/6  h-ful" key={instance.id}>
-              {accountList.map((account) => {
-                if (account.instanceId === instance.id) {
-                  return <div>{account.username}</div>;
-                }
-              })}
-              <Feed instance={instance} />
+        <Suspense
+          fallback={
+            <div className="w-full h-full flex justify-center items-center">
+              <Spinner color="warning" size="lg" />
             </div>
-          ))}
-        </div>
+          }
+        >
+          <Sidebar accountList={accountList} />
+          <div className='flex gap-2 w-full h-full justify-items-start overflow-hidden h-screen" p-[15px]'>
+            {instances.map((instance) => (
+              <div className="w-2/6  h-ful" key={instance.id}>
+                {accountList.map((account) => {
+                  if (account.instanceId === instance.id) {
+                    return <div key={account.id}>{account.username}</div>;
+                  }
+                })}
+                <Feed instance={instance} />
+              </div>
+            ))}
+          </div>
+        </Suspense>
       </div>
     </div>
   );
