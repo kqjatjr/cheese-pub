@@ -58,7 +58,9 @@ const Feed = ({ instance }: Props) => {
               <div className="flex justify-center items-center">
                 {feed.media_attachments.length > 0 &&
                   feed.media_attachments.map((item) => {
-                    return <Image className="mt-[10px]" src={item.preview_url || ''} />;
+                    if (item.type === 'image') {
+                      return <Image key={item.id} className="mt-[10px]" src={item.preview_url || ''} />;
+                    }
                   })}
               </div>
             </CardBody>
