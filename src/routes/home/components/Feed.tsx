@@ -55,6 +55,12 @@ const Feed = ({ instance }: Props) => {
             <Divider />
             <CardBody>
               <p dangerouslySetInnerHTML={{ __html: feed.content }} />
+              <div className="flex justify-center items-center">
+                {feed.media_attachments.length > 0 &&
+                  feed.media_attachments.map((item) => {
+                    return <Image className="mt-[10px]" src={item.preview_url || ''} />;
+                  })}
+              </div>
             </CardBody>
             <Divider />
             <CardFooter>
