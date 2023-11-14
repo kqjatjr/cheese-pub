@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure, Avatar } from '@nextui-org/react';
+import { Modal, ModalContent, ModalHeader, ModalBody, useDisclosure, Avatar } from '@nextui-org/react';
 import AddServerForm from '$components/AddServerForm';
 
 export default function AddServerFab() {

@@ -40,7 +40,6 @@ const Feed = ({ instance }: Props) => {
 
   return (
     <div className="h-full overflow-auto">
-      <div>{instance.id}</div>
       {timeline.map((feed, i) => (
         <Fragment key={i}>
           <Card>

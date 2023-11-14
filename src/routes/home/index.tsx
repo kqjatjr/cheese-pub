@@ -2,23 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { RoutePaths } from '$routes/paths';
 import Feed from '$routes/home/components/Feed';
-import AddServerFab from '$routes/home/components/AddServerFab';
 import { useAtomValue } from 'jotai';
 import { Instance, accountsAtom } from '$atoms/accounts';
 import Header from './components/Header';
 import Sidebar from '$components/Sidebar';
-import generator from 'megalodon';
+import generator, { Entity } from 'megalodon';
+
+interface IAccountList extends Entity.Account {
+  instanceId: string;
+}
 
 const Home = () => {
   const navigate = useNavigate();
   const instances = useAtomValue(accountsAtom);
   const isUserLoggedIn = instances.length > 0;
-  const [accountList, setAccountList] = useState<Entity.Account[]>([]);
+  const [accountList, setAccountList] = useState<IAccountList[]>([]);
 
   const getAccountData = async (instance: Instance) => {
     const client = generator(instance.type, instance.url, instance.accessToken);
     const { data } = await client.verifyAccountCredentials();
-    setAccountList((prev) => [...prev, data]);
+    setAccountList((prev) => [...prev, { ...data, instanceId: instance.id }]);
   };
 
   useEffect(() => {
@@ -43,6 +46,11 @@ const Home = () => {
         <div className='flex gap-2 w-full h-full justify-items-start overflow-hidden h-screen" p-[15px]'>
           {instances.map((instance) => (
             <div className="w-2/6  h-ful" key={instance.id}>
+              {accountList.map((account) => {
+                if (account.instanceId === instance.id) {
+                  return <div>{account.username}</div>;
+                }
+              })}
               <Feed instance={instance} />
             </div>
           ))}
