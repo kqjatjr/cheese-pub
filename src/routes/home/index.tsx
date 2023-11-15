@@ -26,18 +26,14 @@ const Home = () => {
   };
 
   useEffect(() => {
+    if (!isUserLoggedIn) {
+      navigate(RoutePaths.SIGN_IN.HOME);
+    }
+
     instances.forEach((instance) => {
       getAccountData(instance);
     });
   }, [instances]);
-
-  useEffect(() => {
-    if (!isUserLoggedIn) {
-      navigate(RoutePaths.SIGN_IN.HOME);
-    }
-  }, [instances]);
-
-  if (!isUserLoggedIn) return null;
 
   return (
     <div className="flex flex-col ">
