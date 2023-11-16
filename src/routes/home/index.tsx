@@ -10,7 +10,7 @@ import generator, { Entity } from 'megalodon';
 import { Spinner } from '@nextui-org/react';
 import Editor from '$components/Editor';
 
-interface IAccountList extends Entity.Account {
+export interface IAccount extends Entity.Account {
   instanceId: string;
 }
 
@@ -18,7 +18,8 @@ const Home = () => {
   const navigate = useNavigate();
   const instances = useAtomValue(accountsAtom);
   const isUserLoggedIn = instances.length > 0;
-  const [accountList, setAccountList] = useState<IAccountList[]>([]);
+  const [accountList, setAccountList] = useState<IAccount[]>([]);
+  const [focusInstance, setFocusInstance] = useState<Instance>();
 
   const getAccountData = async (instance: Instance) => {
     const client = generator(instance.type, instance.url, instance.accessToken);
@@ -30,11 +31,17 @@ const Home = () => {
     if (!isUserLoggedIn) {
       navigate(RoutePaths.SIGN_IN.HOME);
     }
-
+    setFocusInstance(instances[instances.length - 1]);
     instances.forEach((instance) => {
       getAccountData(instance);
     });
   }, [instances]);
+
+  const handleChangeFocusInstance = (id: string) => {
+    instances.forEach((instance) => {
+      if (instance.id === id) setFocusInstance(instance);
+    });
+  };
 
   return (
     <div className="flex flex-col ">
@@ -48,7 +55,11 @@ const Home = () => {
             </div>
           }
         >
-          <Sidebar accountList={accountList} />
+          <Sidebar
+            accountList={accountList}
+            focusInstanceId={focusInstance?.id}
+            onChangeFocusInstance={handleChangeFocusInstance}
+          />
           <div className='flex gap-2 w-full h-full justify-items-start overflow-hidden h-screen" p-[15px]'>
             {instances.map((instance) => (
               <div className="w-2/6  h-ful" key={instance.id}>
