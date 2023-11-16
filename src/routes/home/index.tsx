@@ -8,6 +8,7 @@ import Header from './components/Header';
 import Sidebar from '$components/Sidebar';
 import generator, { Entity } from 'megalodon';
 import { Spinner } from '@nextui-org/react';
+import Editor from '$components/Editor';
 
 interface IAccountList extends Entity.Account {
   instanceId: string;
@@ -60,6 +61,7 @@ const Home = () => {
               </div>
             ))}
           </div>
+          <Editor />
         </Suspense>
       </div>
     </div>
