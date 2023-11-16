@@ -71,7 +71,7 @@ const Home = () => {
               </div>
             ))}
           </div>
-          <Editor />
+          <Editor instance={focusInstance} />
         </Suspense>
       </div>
     </div>
