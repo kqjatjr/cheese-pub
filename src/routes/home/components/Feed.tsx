@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import generator from 'megalodon';
 import React, { Fragment, useMemo, useState } from 'react';
-import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Image, Spacer } from '@nextui-org/react';
+import { Card, CardHeader, CardBody, CardFooter, Divider, Image, Spacer } from '@nextui-org/react';
 import InfiniteLoading from '$components/InfiniteLoading';
 import { Instance } from '$atoms/accounts';
 
