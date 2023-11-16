@@ -46,7 +46,6 @@ const Home = () => {
   return (
     <div className="flex flex-col ">
       <Header title="CHEESE-PUB" />
-
       <div className="flex gap-2 justify-items-start overflow-hidden h-screen">
         <Suspense
           fallback={

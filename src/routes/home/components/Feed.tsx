@@ -14,8 +14,6 @@ const Feed = ({ instance }: Props) => {
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
     ['feed', instance.id],
     async ({ pageParam }) => {
-      const a = await client.getHomeTimeline({ limit: 40, ...pageParam });
-      console.log(a, '##');
       return client.getHomeTimeline({ limit: 40, ...pageParam });
     },
     {
