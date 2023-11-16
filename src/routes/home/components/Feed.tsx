@@ -62,11 +62,7 @@ const Feed = ({ instance }: Props) => {
               </div>
             </CardBody>
             <Divider />
-            <CardFooter>
-              <Link isExternal showAnchorIcon href="https://github.com/nextui-org/nextui">
-                {/* Visit source code on GitHub. */}
-              </Link>
-            </CardFooter>
+            <CardFooter></CardFooter>
           </Card>
           <Spacer y={2} />
         </Fragment>
