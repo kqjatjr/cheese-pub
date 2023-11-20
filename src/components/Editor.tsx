@@ -22,7 +22,7 @@ const Editor = ({ instance }: IProps) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
   const [files, setFiles] = useState<string[]>([]);
 
-  const onClickPostBtn = async () => {
+  const handleClickPostBtn = async () => {
     if (!textContent.length) {
       alert('업로드할 내용을 입력해 주세요');
     }
@@ -71,7 +71,7 @@ const Editor = ({ instance }: IProps) => {
           </ModalBody>
           <ModalFooter>
             <input type="file" onChange={handleUploadMediaFile} />
-            <Button onClick={onClickPostBtn}>업로드</Button>
+            <Button onClick={handleClickPostBtn}>업로드</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
