@@ -8,6 +8,7 @@ import {
   ModalHeader,
   Textarea,
   useDisclosure,
+  Image,
 } from '@nextui-org/react';
 import generator from 'megalodon';
 import React, { ChangeEvent, useState } from 'react';
@@ -79,7 +80,16 @@ const Editor = ({ instance }: IProps) => {
                 <FaPaperclip />
               </div>
             </label>
-            <div className="flex w-full overflow-y-auto"></div>
+            <div className="flex w-full overflow-x-auto overflow-y-hidden h-[160] gap-[10px]">
+              {files.length > 0 &&
+                files.map((file) => {
+                  if (file.type === 'image') {
+                    return (
+                      <Image key={file.id} isBlurred width={150} height={150} src={file.preview_url || undefined} />
+                    );
+                  }
+                })}
+            </div>
           </ModalBody>
           <ModalFooter>
             <Button onClick={handleClickPostBtn}>업로드</Button>
