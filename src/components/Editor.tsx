@@ -13,6 +13,7 @@ import {
 import generator from 'megalodon';
 import React, { ChangeEvent, useState } from 'react';
 import { FaPaperclip } from 'react-icons/fa';
+import { MdDelete } from 'react-icons/md';
 
 interface IProps {
   instance?: Instance;
@@ -59,6 +60,10 @@ const Editor = ({ instance }: IProps) => {
     }
   };
 
+  const handleClickRemoveFileBtn = (id: string) => {
+    setFiles((prev) => prev.filter((file) => file.id !== id));
+  };
+
   return (
     <>
       <Button className="fixed bottom-2 right-2" onClick={onOpen}>
@@ -83,9 +88,17 @@ const Editor = ({ instance }: IProps) => {
             <div className="flex w-full overflow-x-auto overflow-y-hidden h-[160] gap-[10px]">
               {files.length > 0 &&
                 files.map((file) => {
-                  if (file.type === 'image') {
+                  if (file.type === 'image' || file.type === 'video') {
                     return (
-                      <Image key={file.id} isBlurred width={150} height={150} src={file.preview_url || undefined} />
+                      <div className="w-[150px] h-[150px] relative" key={file.id}>
+                        <button
+                          onClick={() => handleClickRemoveFileBtn(file.id)}
+                          className="absolute right-[3px] top-[3px] cursor-pointer z-[999] bg-slate-400 w-[30px] h-[30px] flex items-center justify-center box-border rounded-lg"
+                        >
+                          <MdDelete size={'20px'} className="cursor-pointer" />
+                        </button>
+                        <Image isBlurred width={150} src={file.preview_url || undefined} className="object-fill" />
+                      </div>
                     );
                   }
                 })}
