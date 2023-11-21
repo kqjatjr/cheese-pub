@@ -11,6 +11,7 @@ import {
 } from '@nextui-org/react';
 import generator from 'megalodon';
 import React, { ChangeEvent, useState } from 'react';
+import { FaPaperclip } from 'react-icons/fa';
 
 interface IProps {
   instance?: Instance;
@@ -20,7 +21,7 @@ const Editor = ({ instance }: IProps) => {
   const [textContent, setTextContent] = useState('');
   const client = instance && generator(instance.type, instance.url, instance.accessToken);
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
-  const [files, setFiles] = useState<string[]>([]);
+  const [files, setFiles] = useState<Array<Entity.Attachment | Entity.AsyncAttachment>>([]);
 
   const handleClickPostBtn = async () => {
     if (!textContent.length) {
@@ -28,7 +29,11 @@ const Editor = ({ instance }: IProps) => {
     }
     const result = await client?.postStatus(textContent, {
       scheduled_at: '',
-      media_ids: files.length ? files : [],
+      media_ids: files.length
+        ? files.reduce((acc, cur) => {
+            return [...acc, cur.id];
+          }, [] as string[])
+        : [],
     });
     if (result?.status === 200) {
       setTextContent('');
@@ -44,7 +49,7 @@ const Editor = ({ instance }: IProps) => {
     if (file) {
       try {
         const result = await client?.uploadMedia(file);
-        result && setFiles((prev) => [...prev, result.data.id]);
+        result && setFiles((prev) => [...prev, result.data]);
       } catch (error) {
         console.error('오류:', error);
       }
@@ -68,9 +73,15 @@ const Editor = ({ instance }: IProps) => {
               maxRows={3}
               label="포스팅 내용"
             />
+            <input type="file" id="upload-file" hidden onChange={handleUploadMediaFile} />
+            <label htmlFor="upload-file" className="w-[40px] h-[40px]">
+              <div className="flex justify-center items-center cursor-pointer bg-[#e5e7eb] w-full h-full rounded-lg">
+                <FaPaperclip />
+              </div>
+            </label>
+            <div className="flex w-full overflow-y-auto"></div>
           </ModalBody>
           <ModalFooter>
-            <input type="file" onChange={handleUploadMediaFile} />
             <Button onClick={handleClickPostBtn}>업로드</Button>
           </ModalFooter>
         </ModalContent>
