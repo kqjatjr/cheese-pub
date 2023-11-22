@@ -1,4 +1,3 @@
-import { IAccount } from '$routes/home';
 import AddServerFab from '$routes/home/components/AddServerFab';
 import { Avatar } from '@nextui-org/react';
 import React, { FC } from 'react';
