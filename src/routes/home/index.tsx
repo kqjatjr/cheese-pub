@@ -8,13 +8,12 @@ import Header from './components/Header';
 import Sidebar from '$components/Sidebar';
 import { Spinner } from '@nextui-org/react';
 import Editor from '$components/Editor';
-import { useAccountList } from '$hooks/useAccountList';
+import MainView from './components/MainView';
 
 const Home = () => {
   const navigate = useNavigate();
   const instances = useAtomValue(accountsAtom);
   const isUserLoggedIn = instances.length > 0;
-  const { accountList } = useAccountList();
   const [focusInstance, setFocusInstance] = useState<Instance>();
 
   useEffect(() => {
@@ -42,18 +41,7 @@ const Home = () => {
           }
         >
           <Sidebar focusInstanceId={focusInstance?.id} onChangeFocusInstance={handleChangeFocusInstance} />
-          <div className='flex gap-2 w-full h-full justify-items-start overflow-hidden h-screen" p-[15px]'>
-            {instances.map((instance) => (
-              <div className="w-2/6  h-ful" key={instance.id}>
-                {accountList?.map((account) => {
-                  if (account.instanceId === instance.id) {
-                    return <div key={account.id}>{account.username}</div>;
-                  }
-                })}
-                <Feed instance={instance} />
-              </div>
-            ))}
-          </div>
+          <MainView />
           <Editor instance={focusInstance} />
         </Suspense>
       </div>
