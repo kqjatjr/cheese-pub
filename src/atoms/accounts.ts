@@ -11,7 +11,10 @@ export type Instance = {
   accessToken: string;
 };
 
-export const accountsAtom = atomWithStorage<Instance[]>(LocalStorageKey.Account, []);
+export const accountsAtom = atomWithStorage<Instance[]>(
+  LocalStorageKey.Account,
+  JSON.parse(localStorage.getItem(LocalStorageKey.Account) ?? '[]'),
+);
 
 export const addAccountAtom = atom(null, (get, set, instance: Instance) => {
   const accounts = get(accountsAtom);
