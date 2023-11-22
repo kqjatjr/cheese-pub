@@ -41,11 +41,7 @@ const Home = () => {
             </div>
           }
         >
-          <Sidebar
-            accountList={accountList ?? []}
-            focusInstanceId={focusInstance?.id}
-            onChangeFocusInstance={handleChangeFocusInstance}
-          />
+          <Sidebar focusInstanceId={focusInstance?.id} onChangeFocusInstance={handleChangeFocusInstance} />
           <div className='flex gap-2 w-full h-full justify-items-start overflow-hidden h-screen" p-[15px]'>
             {instances.map((instance) => (
               <div className="w-2/6  h-ful" key={instance.id}>
