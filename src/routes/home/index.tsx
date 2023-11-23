@@ -42,7 +42,7 @@ const Home = () => {
         >
           <Sidebar focusInstanceId={focusInstance?.id} onChangeFocusInstance={handleChangeFocusInstance} />
           <MainView />
-          <Editor instance={focusInstance} />
+          {focusInstance && <Editor instance={focusInstance} />}
         </Suspense>
       </div>
     </div>
