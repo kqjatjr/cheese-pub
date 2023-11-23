@@ -10,51 +10,72 @@ import {
   useDisclosure,
   Image,
 } from '@nextui-org/react';
+import { useMutation } from '@tanstack/react-query';
 import generator from 'megalodon';
 import React, { ChangeEvent, useState } from 'react';
 import { FaPaperclip } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 
 interface IProps {
-  instance?: Instance;
+  instance: Instance;
 }
 
 const Editor = ({ instance }: IProps) => {
   const [textContent, setTextContent] = useState('');
-  const client = instance && generator(instance.type, instance.url, instance.accessToken);
+  const client = generator(instance.type || '', instance.url, instance.accessToken);
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
   const [files, setFiles] = useState<Array<Entity.Attachment | Entity.AsyncAttachment>>([]);
+
+  const { mutate: postEdit } = useMutation(
+    () => {
+      return client.postStatus(textContent, {
+        scheduled_at: '',
+        media_ids: files.length
+          ? files.reduce((acc, cur) => {
+              return [...acc, cur.id];
+            }, [] as string[])
+          : [],
+      });
+    },
+    {
+      onSuccess: (res) => {
+        if (res.status === 200) {
+          setTextContent('');
+          onClose();
+        } else {
+          alert(`포스팅에 실패하였습니다.(${res.status})`);
+        }
+      },
+    },
+  );
+
+  const { mutate: postMedia } = useMutation(
+    (file: any) => {
+      return client.uploadMedia(file);
+    },
+    {
+      onSuccess: (res) => {
+        if (res.status === 200) {
+          setFiles((prev) => [...prev, res.data]);
+        } else {
+          alert(`업로드에 실패하였습니다.(${res.status})`);
+        }
+      },
+    },
+  );
 
   const handleClickPostBtn = async () => {
     if (!textContent.length) {
       alert('업로드할 내용을 입력해 주세요');
     }
-    const result = await client?.postStatus(textContent, {
-      scheduled_at: '',
-      media_ids: files.length
-        ? files.reduce((acc, cur) => {
-            return [...acc, cur.id];
-          }, [] as string[])
-        : [],
-    });
-    if (result?.status === 200) {
-      setTextContent('');
-      onClose();
-    } else {
-      alert(`포스팅에 실패하였습니다.(${result?.status})`);
-    }
+    postEdit();
   };
 
   const handleUploadMediaFile = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
     if (file) {
-      try {
-        const result = await client?.uploadMedia(file);
-        result && setFiles((prev) => [...prev, result.data]);
-      } catch (error) {
-        console.error('오류:', error);
-      }
+      postMedia(file);
     } else {
       console.error('파일이 선택되지 않았습니다.');
     }
