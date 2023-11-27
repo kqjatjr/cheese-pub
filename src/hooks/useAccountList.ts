@@ -19,6 +19,7 @@ export const useAccountList = () => {
   const instances = useAtomValue(accountsAtom);
   const { data } = useQuery([QUERY_KEY.GET_ACCOUNT], () => getAccountData(instances), {
     suspense: true,
+    staleTime: 2000,
   });
 
   return {
