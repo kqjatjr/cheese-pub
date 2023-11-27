@@ -31,3 +31,8 @@ export const useAccountAtom = (id?: string) => {
       )
     : undefined;
 };
+
+export const focusInstance = atomWithStorage<Instance>(
+  LocalStorageKey.focusInstance,
+  JSON.parse(localStorage.getItem(LocalStorageKey.focusInstance) ?? '{}'),
+);
