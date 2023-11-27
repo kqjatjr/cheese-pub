@@ -1,9 +1,8 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { RoutePaths } from '$routes/paths';
-import Feed from '$routes/home/components/Feed';
-import { useAtomValue } from 'jotai';
-import { Instance, accountsAtom } from '$atoms/accounts';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { accountsAtom, focusInstance } from '$atoms/accounts';
 import Header from './components/Header';
 import Sidebar from '$components/Sidebar';
 import { Spinner } from '@nextui-org/react';
@@ -14,13 +13,12 @@ const Home = () => {
   const navigate = useNavigate();
   const instances = useAtomValue(accountsAtom);
   const isUserLoggedIn = instances.length > 0;
-  const [focusInstance, setFocusInstance] = useState<Instance>();
+  const setFocusInstance = useSetAtom(focusInstance);
 
   useEffect(() => {
     if (!isUserLoggedIn) {
       navigate(RoutePaths.SIGN_IN.HOME);
     }
-    setFocusInstance(instances[instances.length - 1]);
   }, [instances]);
 
   const handleChangeFocusInstance = (id: string) => {
@@ -40,9 +38,9 @@ const Home = () => {
             </div>
           }
         >
-          <Sidebar focusInstanceId={focusInstance?.id} onChangeFocusInstance={handleChangeFocusInstance} />
+          <Sidebar onChangeFocusInstance={handleChangeFocusInstance} />
           <MainView />
-          {focusInstance && <Editor instance={focusInstance} />}
+          <Editor />
         </Suspense>
       </div>
     </div>

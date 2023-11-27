@@ -1,4 +1,4 @@
-import { Instance } from '$atoms/accounts';
+import { Instance, focusInstance } from '$atoms/accounts';
 import {
   Button,
   Modal,
@@ -11,17 +11,15 @@ import {
   Image,
 } from '@nextui-org/react';
 import { useMutation } from '@tanstack/react-query';
+import { useAtomValue } from 'jotai';
 import generator from 'megalodon';
 import React, { ChangeEvent, useState } from 'react';
 import { FaPaperclip } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 
-interface IProps {
-  instance: Instance;
-}
-
-const Editor = ({ instance }: IProps) => {
+const Editor = () => {
   const [textContent, setTextContent] = useState('');
+  const instance = useAtomValue(focusInstance);
   const client = generator(instance.type || '', instance.url, instance.accessToken);
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
   const [files, setFiles] = useState<Array<Entity.Attachment | Entity.AsyncAttachment>>([]);

@@ -3,7 +3,7 @@ import generator from 'megalodon';
 import { Button, Input, Radio, RadioGroup } from '@nextui-org/react';
 import { useAtom, useSetAtom } from 'jotai';
 import { globalUiAtom } from '$atoms/ui';
-import { addAccountAtom } from '$atoms/accounts';
+import { addAccountAtom, focusInstance } from '$atoms/accounts';
 import { nanoid } from 'nanoid';
 import { ServiceType } from '$constants/activityPub';
 
@@ -15,6 +15,7 @@ const AddServerForm = ({ onAdded }: Props) => {
   const [url, setUrl] = useState('');
   const [globalUiState, setGlobalUiState] = useAtom(globalUiAtom);
   const addAccount = useSetAtom(addAccountAtom);
+  const setFocusInstance = useSetAtom(focusInstance);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -67,6 +68,7 @@ const AddServerForm = ({ onAdded }: Props) => {
       };
 
       addAccount(account);
+      setFocusInstance(account);
 
       if (!globalUiState.defaultAccountId) {
         setGlobalUiState({ defaultAccountId: id, selectedAccountId: id });
