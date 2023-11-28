@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import generator from 'megalodon';
-import React, { Fragment, useMemo, useState } from 'react';
-import { Card, CardHeader, CardBody, CardFooter, Divider, Image, Spacer } from '@nextui-org/react';
+import React, { useMemo, useState } from 'react';
+import { Card, CardHeader, CardBody, CardFooter, Divider, Image, Spacer, ScrollShadow } from '@nextui-org/react';
 import InfiniteLoading from '$components/InfiniteLoading';
 import { Instance } from '$atoms/accounts';
 
@@ -37,10 +37,10 @@ const Feed = ({ instance }: Props) => {
   }
 
   return (
-    <div className="h-full overflow-auto">
+    <ScrollShadow hideScrollBar className="h-full w-full overflow-x-hidden  flex flex-col items-center gap-1">
       {timeline.map((feed, i) => (
-        <Fragment key={i}>
-          <Card>
+        <div key={i} className="min-w-full">
+          <Card className="bg-feedBoxColor w-full">
             <CardHeader className="flex gap-3">
               <Image alt="nextui logo" height={40} radius="sm" src={feed.account.avatar} width={40} />
               <div className="flex flex-col">
@@ -65,10 +65,10 @@ const Feed = ({ instance }: Props) => {
             <CardFooter></CardFooter>
           </Card>
           <Spacer y={2} />
-        </Fragment>
+        </div>
       ))}
       {hasNextPage && <InfiniteLoading onShow={handleFetchNextPage} />}
-    </div>
+    </ScrollShadow>
   );
 };
 
