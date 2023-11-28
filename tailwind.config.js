@@ -10,9 +10,13 @@ module.exports = {
         bgColor: '#3A3535',
         mainColor: '#1F1F1F',
         darkColor: '#292929',
+        feedBoxColor: 'rgba(37, 37, 37, 1)',
       },
       fontFamily: {
         title: ['Lemonada', 'Fantasy'],
+      },
+      width: {
+        instance: '360px',
       },
     },
     screens: {
