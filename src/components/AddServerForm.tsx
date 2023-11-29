@@ -73,8 +73,9 @@ const AddServerForm = ({ onAdded }: Props) => {
       if (!globalUiState.defaultAccountId) {
         setGlobalUiState({ defaultAccountId: id, selectedAccountId: id });
       }
-      onAdded?.();
     });
+
+    onAdded?.();
   };
 
   return (
