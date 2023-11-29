@@ -1,9 +1,20 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import generator from 'megalodon';
 import React, { useMemo, useState } from 'react';
-import { Card, CardHeader, CardBody, CardFooter, Divider, Image, Spacer, ScrollShadow } from '@nextui-org/react';
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Divider,
+  Image,
+  Spacer,
+  ScrollShadow,
+  Avatar,
+} from '@nextui-org/react';
 import InfiniteLoading from '$components/InfiniteLoading';
 import { Instance } from '$atoms/accounts';
+import { useAccountList } from '$hooks/useAccountList';
 
 type Props = {
   instance: Instance;
@@ -11,6 +22,9 @@ type Props = {
 
 const Feed = ({ instance }: Props) => {
   const [client] = useState(() => generator(instance.type, instance.url, instance.accessToken));
+  const { getAccount } = useAccountList();
+  const account = getAccount(instance);
+  const serverName = account?.url.split('/')[2];
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
     ['feed', instance.id],
     async ({ pageParam }) => {
@@ -32,43 +46,54 @@ const Feed = ({ instance }: Props) => {
       },
     });
 
-  if (!timeline) {
+  if (!timeline || !account) {
     return null;
   }
 
   return (
-    <ScrollShadow hideScrollBar className="h-full w-full overflow-x-hidden  flex flex-col items-center gap-1">
-      {timeline.map((feed, i) => (
-        <div key={i} className="min-w-full">
-          <Card className="bg-feedBoxColor w-full">
-            <CardHeader className="flex gap-3">
-              <Image alt="nextui logo" height={40} radius="sm" src={feed.account.avatar} width={40} />
-              <div className="flex flex-col">
-                <p className="text-md">{feed.account.display_name}</p>
-                <p className="text-small text-default-500">{feed.account.username}</p>
-                <p className="text-small text-default-500">{feed.created_at}</p>
-              </div>
-            </CardHeader>
-            <Divider />
-            <CardBody>
-              <p dangerouslySetInnerHTML={{ __html: feed.content }} />
-              <div className="flex justify-center items-center">
-                {feed.media_attachments.length > 0 &&
-                  feed.media_attachments.map((item) => {
-                    if (item.type === 'image') {
-                      return <Image key={item.id} className="mt-[10px]" src={item.preview_url || ''} />;
-                    }
-                  })}
-              </div>
-            </CardBody>
-            <Divider />
-            <CardFooter></CardFooter>
-          </Card>
-          <Spacer y={2} />
+    <div
+      className="w-instance h-full bg-mainColor p-3 rounded-[14px] max-w-[360px] flex flex-col gap-3 min-w-[360px]"
+      key={instance.id}
+    >
+      <div className="flex items-center gap-3">
+        <div>
+          <Avatar radius="md" key={account.id} className="cursor-pointer" src={account.avatar} />
         </div>
-      ))}
-      {hasNextPage && <InfiniteLoading onShow={handleFetchNextPage} />}
-    </ScrollShadow>
+        <p>{account.username + '@' + serverName}</p>
+      </div>
+      <ScrollShadow hideScrollBar className="h-full w-full overflow-x-hidden  flex flex-col items-center gap-1">
+        {timeline.map((feed, i) => (
+          <div key={i} className="min-w-full">
+            <Card className="bg-feedBoxColor w-full">
+              <CardHeader className="flex gap-3">
+                <Image alt="nextui logo" height={40} radius="sm" src={feed.account.avatar} width={40} />
+                <div className="flex flex-col">
+                  <p className="text-md">{feed.account.display_name}</p>
+                  <p className="text-small text-default-500">{feed.account.username}</p>
+                  <p className="text-small text-default-500">{feed.created_at}</p>
+                </div>
+              </CardHeader>
+              <Divider />
+              <CardBody>
+                <p dangerouslySetInnerHTML={{ __html: feed.content }} />
+                <div className="flex justify-center items-center">
+                  {feed.media_attachments.length > 0 &&
+                    feed.media_attachments.map((item) => {
+                      if (item.type === 'image') {
+                        return <Image key={item.id} className="mt-[10px]" src={item.preview_url || ''} />;
+                      }
+                    })}
+                </div>
+              </CardBody>
+              <Divider />
+              <CardFooter></CardFooter>
+            </Card>
+            <Spacer y={2} />
+          </div>
+        ))}
+        {hasNextPage && <InfiniteLoading onShow={handleFetchNextPage} />}
+      </ScrollShadow>
+    </div>
   );
 };
 
