@@ -31,8 +31,8 @@ const Feed = ({ instance }: Props) => {
       return client.getHomeTimeline({ limit: 40, ...pageParam });
     },
     {
-      // getPreviousPageParam: (firstPage) => firstPage.data[0].id,
-      // getNextPageParam: (lastPage) => lastPage.data[lastPage.data.length - 1].id,
+      getPreviousPageParam: (firstPage) => firstPage.data.length > 0,
+      getNextPageParam: (lastPage) => lastPage.data.length > 0,
       suspense: true,
     },
   );
