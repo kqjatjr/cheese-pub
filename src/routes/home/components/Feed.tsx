@@ -89,11 +89,11 @@ const Feed = ({ instance }: Props) => {
               <Divider />
               <CardFooter>
                 <div className="flex items-center gap-2 h-full w-full">
-                  <MdChatBubble size={20} className="hover:scale-120 hover:text-purple-500 cursor-pointer" />
+                  <MdChatBubble size={20} className="hover:scale-125 hover:text-purple-500 cursor-pointer" />
                   <span className="font-bold">{feed.replies_count}</span>
-                  <MdReplay size={20} className="hover:scale-120 hover:text-green-500 cursor-pointer" />
+                  <MdReplay size={20} className="hover:scale-125 hover:text-green-500 cursor-pointer" />
                   <span className="font-bold">{feed.reblogs_count}</span>
-                  <MdOutlineStarPurple500 size={20} className="hover:scale-120 hover:text-orange-300 cursor-pointer" />
+                  <MdOutlineStarPurple500 size={20} className="hover:scale-125 hover:text-orange-300 cursor-pointer" />
                   <span className="font-bold">{feed.favourites_count}</span>
                 </div>
               </CardFooter>
