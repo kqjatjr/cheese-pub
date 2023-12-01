@@ -10,7 +10,7 @@ import {
   useDisclosure,
   Image,
 } from '@nextui-org/react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
 import generator from 'megalodon';
 import React, { ChangeEvent, useState } from 'react';
@@ -20,6 +20,7 @@ import { MdDelete } from 'react-icons/md';
 const Editor = () => {
   const [textContent, setTextContent] = useState('');
   const instance = useAtomValue(focusInstance);
+  const queryClient = useQueryClient();
   const client = generator(instance.type || '', instance.url, instance.accessToken);
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
   const [files, setFiles] = useState<Array<Entity.Attachment | Entity.AsyncAttachment>>([]);
@@ -39,6 +40,13 @@ const Editor = () => {
       onSuccess: (res) => {
         if (res.status === 200) {
           setTextContent('');
+          queryClient.invalidateQueries(
+            ['feed', instance.id],
+            {
+              refetchPage: (page, index) => true,
+            },
+            undefined,
+          );
           onClose();
         } else {
           alert(`포스팅에 실패하였습니다.(${res.status})`);
