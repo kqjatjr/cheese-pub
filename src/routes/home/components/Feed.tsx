@@ -12,6 +12,7 @@ import {
   ScrollShadow,
   Avatar,
 } from '@nextui-org/react';
+import { MdChatBubble, MdReplay, MdOutlineStarPurple500 } from 'react-icons/md';
 import InfiniteLoading from '$components/InfiniteLoading';
 import { Instance } from '$atoms/accounts';
 import { useAccountList } from '$hooks/useAccountList';
@@ -86,7 +87,16 @@ const Feed = ({ instance }: Props) => {
                 </div>
               </CardBody>
               <Divider />
-              <CardFooter></CardFooter>
+              <CardFooter>
+                <div className="flex items-center gap-2 h-full w-full">
+                  <MdChatBubble size={20} className="hover:scale-120 hover:text-purple-500 cursor-pointer" />
+                  <span className="font-bold">{feed.replies_count}</span>
+                  <MdReplay size={20} className="hover:scale-120 hover:text-green-500 cursor-pointer" />
+                  <span className="font-bold">{feed.reblogs_count}</span>
+                  <MdOutlineStarPurple500 size={20} className="hover:scale-120 hover:text-orange-300 cursor-pointer" />
+                  <span className="font-bold">{feed.favourites_count}</span>
+                </div>
+              </CardFooter>
             </Card>
             <Spacer y={2} />
           </div>
