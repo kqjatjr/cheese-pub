@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import generator from 'megalodon';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   CardHeader,
@@ -23,6 +23,7 @@ type Props = {
 
 const Feed = ({ instance }: Props) => {
   const [client] = useState(() => generator(instance.type, instance.url, instance.accessToken));
+  const [timeline, setTimeline] = useState<Entity.Status[] | undefined>([]);
   const { getAccount } = useAccountList();
   const account = getAccount(instance);
   const serverName = account?.url.split('/')[2];
@@ -38,14 +39,32 @@ const Feed = ({ instance }: Props) => {
     },
   );
 
-  const timeline = useMemo(() => data?.pages.flatMap((v) => v.data), [data]);
-
   const handleFetchNextPage = () =>
     fetchNextPage({
       pageParam: {
         max_id: timeline?.[timeline.length - 1].id,
       },
     });
+
+  const handleClickFavouritesIcon = async (feedId: string, isFavourited: boolean | null) => {
+    const { data: targetFeed } = isFavourited
+      ? await client.unfavouriteStatus(feedId)
+      : await client.favouriteStatus(feedId);
+
+    setTimeline(
+      (prev) =>
+        prev?.map((feed) => {
+          if (feed.id === targetFeed.id) {
+            return targetFeed;
+          }
+          return feed;
+        }),
+    );
+  };
+
+  useEffect(() => {
+    setTimeline(data?.pages.flatMap((v) => v.data));
+  }, [data]);
 
   if (!timeline || !account) {
     return null;
@@ -93,7 +112,11 @@ const Feed = ({ instance }: Props) => {
                   <span className="font-bold">{feed.replies_count}</span>
                   <MdReplay size={20} className="hover:scale-125 hover:text-green-500 cursor-pointer" />
                   <span className="font-bold">{feed.reblogs_count}</span>
-                  <MdOutlineStarPurple500 size={20} className="hover:scale-125 hover:text-orange-300 cursor-pointer" />
+                  <MdOutlineStarPurple500
+                    size={20}
+                    className="hover:scale-125 hover:text-orange-300 cursor-pointer"
+                    onClick={() => handleClickFavouritesIcon(feed.id, feed.favourited)}
+                  />
                   <span className="font-bold">{feed.favourites_count}</span>
                 </div>
               </CardFooter>
