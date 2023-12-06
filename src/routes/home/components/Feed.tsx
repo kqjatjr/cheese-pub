@@ -114,7 +114,9 @@ const Feed = ({ instance }: Props) => {
                   <span className="font-bold">{feed.reblogs_count}</span>
                   <MdOutlineStarPurple500
                     size={20}
-                    className="hover:scale-125 hover:text-orange-300 cursor-pointer"
+                    className={`hover:scale-125 hover:text-orange-300 cursor-pointer ${
+                      feed.favourited ? 'text-orange-300' : ''
+                    }`}
                     onClick={() => handleClickFavouritesIcon(feed.id, feed.favourited)}
                   />
                   <span className="font-bold">{feed.favourites_count}</span>
