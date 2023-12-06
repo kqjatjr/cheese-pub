@@ -62,6 +62,23 @@ const Feed = ({ instance }: Props) => {
     );
   };
 
+  const handleClickreBlogIcon = async (feedId: string, reblogged: boolean | null) => {
+    const { data: targetFeed } = reblogged ? await client.unreblogStatus(feedId) : await client.reblogStatus(feedId);
+
+    setTimeline(
+      (prev) =>
+        prev?.map((feed) => {
+          if (targetFeed.reblog && feed.id === targetFeed.reblog.id) {
+            return targetFeed.reblog;
+          }
+          if (feed.id === targetFeed.id) {
+            return targetFeed;
+          }
+          return feed;
+        }),
+    );
+  };
+
   useEffect(() => {
     setTimeline(data?.pages.flatMap((v) => v.data));
   }, [data]);
@@ -110,7 +127,13 @@ const Feed = ({ instance }: Props) => {
                 <div className="flex items-center gap-2 h-full w-full">
                   <MdChatBubble size={20} className="hover:scale-125 hover:text-purple-500 cursor-pointer" />
                   <span className="font-bold">{feed.replies_count}</span>
-                  <MdReplay size={20} className="hover:scale-125 hover:text-green-500 cursor-pointer" />
+                  <MdReplay
+                    size={20}
+                    className={`hover:scale-125 hover:text-green-500 cursor-pointer ${
+                      feed.reblogged ? 'text-green-500' : ''
+                    }`}
+                    onClick={() => handleClickreBlogIcon(feed.id, feed.reblogged)}
+                  />
                   <span className="font-bold">{feed.reblogs_count}</span>
                   <MdOutlineStarPurple500
                     size={20}
