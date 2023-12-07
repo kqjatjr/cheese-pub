@@ -1,4 +1,5 @@
 import { Instance, focusInstance } from '$atoms/accounts';
+import { QUERY_KEY } from '$queryKey/keys';
 import {
   Button,
   Modal,
@@ -41,7 +42,7 @@ const Editor = () => {
         if (res.status === 200) {
           setTextContent('');
           queryClient.invalidateQueries(
-            ['feed', instance.id],
+            [QUERY_KEY.GET_FEED, instance.id],
             {
               refetchPage: (page, index) => true,
             },

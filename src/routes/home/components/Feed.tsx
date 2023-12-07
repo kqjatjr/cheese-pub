@@ -16,6 +16,7 @@ import { MdChatBubble, MdReplay, MdOutlineStarPurple500 } from 'react-icons/md';
 import InfiniteLoading from '$components/InfiniteLoading';
 import { Instance } from '$atoms/accounts';
 import { useAccountList } from '$hooks/useAccountList';
+import { QUERY_KEY } from '$queryKey/keys';
 
 type Props = {
   instance: Instance;
@@ -28,7 +29,7 @@ const Feed = ({ instance }: Props) => {
   const account = getAccount(instance);
   const serverName = account?.url.split('/')[2];
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
-    ['feed', instance.id],
+    [QUERY_KEY.GET_FEED, instance.id],
     async ({ pageParam }) => {
       return client.getHomeTimeline({ limit: 40, ...pageParam });
     },
